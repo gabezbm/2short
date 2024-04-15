@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const urlPairSchema = new mongoose.Schema({
+const urlPairSchema = new Schema({
   full: {
     type: String,
     required: true,
@@ -11,6 +11,4 @@ const urlPairSchema = new mongoose.Schema({
   },
 });
 
-const UrlPair = mongoose.model("UrlPair", urlPairSchema);
-
-module.exports = UrlPair
+export const UrlPair = model("UrlPair", urlPairSchema);

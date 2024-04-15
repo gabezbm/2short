@@ -1,15 +1,16 @@
-const mongoose = require("mongoose");
-const app = require("express")();
+import { connect } from "mongoose";
+import express from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
 
-require("dotenv").config();
+dotenv.config();
 const mongodbUser = process.env.MONGODB_USER;
 const mongodbPassword = process.env.MONGODB_PASSWORD;
 const port = process.env.PORT;
 
+const app = express();
 const uri = `mongodb+srv://${mongodbUser}:${mongodbPassword}@cluster0.huleewa.mongodb.net/data?retryWrites=true&w=majority&appName=Cluster0`;
-
-mongoose
-  .connect(uri)
+connect(uri)
   .then(() => {
     console.log("Connected to MongoDB.");
     app.listen(port, () => {
@@ -20,9 +21,7 @@ mongoose
     console.error(err);
   });
 
-const UrlPair = require("./models/urlPair");
+import { redirect, create } from "./apis.js";
 
-app.get("/:shortUrl", async (req, res) => {
-  const record = await UrlPair.findOne({ short: req.params.shortUrl });
-  res.redirect(record.toJSON().full);
-});
+app.get("/:shortUrl", redirect);
+app.post("/api/create", bodyParser.json(), create);
