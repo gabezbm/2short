@@ -1,14 +1,8 @@
-import { useState } from "react";
 import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
-import Snackbar from "@mui/joy/Snackbar";
 
-const SubmitForm = () => {
-  const [open, setOpen] = useState(false);
-  const [ok, setOk] = useState(false);
-  const [message, setMessage] = useState("");
-
+const SubmitForm = ({ setEntries, setOpen, setOk, setMessage }) => {
   const postRecord = async (full, short) => {
     try {
       if (full === "") {
@@ -27,6 +21,9 @@ const SubmitForm = () => {
       setOk(res.ok);
       setMessage(await res.text());
       setOpen(true);
+      if (res.ok) {
+        setEntries((prev) => [...prev, { full: full, short: short }]);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -55,22 +52,11 @@ const SubmitForm = () => {
             placeholder='Full URL (should include "http(s)://")'
           />
           <Input fullWidth name="short" placeholder="Short URL" />
-          <Button type="submit" variant="outlined">
-            Submit
+          <Button type="submit" variant="soft">
+            Create
           </Button>
         </Stack>
       </form>
-      <Snackbar
-        color={ok ? "success" : "danger"}
-        variant="soft"
-        autoHideDuration={2000}
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-      >
-        {message}
-      </Snackbar>
     </>
   );
 };
