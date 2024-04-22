@@ -2,10 +2,12 @@ import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
+import { ContentCopy, OpenInNew, DeleteOutline } from "@mui/icons-material";
 
 const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
+  const siteDomain = import.meta.env.VITE_SITE_DOMAIN;
   const copyToClipboard = (short) => () => {
-    navigator.clipboard.writeText(`https://2short.click/${short}`);
+    navigator.clipboard.writeText(`${siteDomain}/${short}`);
     setOk(true);
     setMessage("Short URL copied to clipboard!");
     setOpen(true);
@@ -36,7 +38,7 @@ const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
             textColor="inherit"
             textAlign="center"
           >
-            {full}&nbsp;→&nbsp;2short.click/{short}
+            {full}&nbsp;→&nbsp;{siteDomain}/{short}
           </Typography>
           <Button
             size="sm"
@@ -44,17 +46,17 @@ const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
             color="primary"
             onClick={copyToClipboard(short)}
           >
-            Copy
+            <ContentCopy />
           </Button>
           <Button
             size="sm"
             variant="outlined"
             color="success"
             onClick={() => {
-              window.open(`https://2short.click/${short}`, "_blank");
+              window.open(`http://${siteDomain}/${short}`, "_blank");
             }}
           >
-            Open
+            <OpenInNew />
           </Button>
           <Button
             size="sm"
@@ -62,7 +64,7 @@ const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
             color="danger"
             onClick={deleteRecord(short)}
           >
-            Delete
+            <DeleteOutline />
           </Button>
         </Stack>
       </Card>

@@ -3,6 +3,7 @@ import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 
 const SubmitForm = ({ setEntries, setOpen, setOk, setMessage }) => {
+  const backendPort = import.meta.env.VITE_BACKEND_PORT;
   const postRecord = async (full, short) => {
     try {
       if (full === "") {
@@ -11,7 +12,13 @@ const SubmitForm = ({ setEntries, setOpen, setOk, setMessage }) => {
         setOpen(true);
         return;
       }
-      const res = await fetch("http://localhost:8000/api/create", {
+      if (short === "") {
+        setOk(false);
+        setMessage("Short URL is required!");
+        setOpen(true);
+        return;
+      }
+      const res = await fetch(`http://localhost:${backendPort}/api/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

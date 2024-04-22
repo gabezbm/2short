@@ -2,15 +2,15 @@ import { connect } from "mongoose";
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 const mongodbUser = process.env.MONGODB_USER;
 const mongodbPassword = process.env.MONGODB_PASSWORD;
-const port = process.env.PORT;
+const port = process.env.VITE_BACKEND_PORT;
 
 const app = express();
-app.use(cors())
+app.use(cors());
 const uri = `mongodb+srv://${mongodbUser}:${mongodbPassword}@cluster0.huleewa.mongodb.net/data?retryWrites=true&w=majority&appName=Cluster0`;
 connect(uri)
   .then(() => {
