@@ -23,6 +23,19 @@ connect(uri)
     console.error(err);
   });
 
+import cookieParser from "cookie-parser";
+import crypto from "crypto";
+app.use(cookieParser());
+app.use((req, res, next) => {
+  if (!req.cookies.sessionToken) {
+    res.cookie("sessionToken", crypto.randomBytes(16).toString("hex"), {
+      httpOnly: true,
+    });
+  } else {
+  }
+  next();
+});
+
 import { fileURLToPath } from "url";
 import path from "path";
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +44,6 @@ const buildPath = path.join(__dirname, "../frontend/dist");
 app.use(express.static(buildPath));
 
 import { redirect, create, remove } from "./apis.js";
-
 app.get("/:shortUrl", redirect);
 app.post("/api/create", bodyParser.json(), create);
 app.delete("/api/delete/:shortUrl", remove);
