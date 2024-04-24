@@ -107,3 +107,26 @@ export const remove = async (req, res) => {
       res.sendStatus(404);
     });
 };
+
+export const list = async (req, res) => {
+  const sessionToken = req.cookies.sessionToken;
+  if (!sessionToken) {
+    return { entries: [] };
+  }
+
+  const tokenExists = await SessionData.exists({ sessionToken: sessionToken });
+  if (!tokenExists) {
+    return { entries: [] };
+  }
+
+  SessionData.findOne({
+    sessionToken: sessionToken,
+  })
+    .populate("urlPairs")
+    .then((data) => {
+      res.json({ entries: data.urlPairs });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};

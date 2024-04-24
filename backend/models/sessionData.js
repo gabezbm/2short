@@ -8,6 +8,7 @@ const sessionDataSchema = new Schema({
   urlPairs: {
     type: [mongoose.Types.ObjectId],
     required: true,
+    ref: "UrlPair",
   },
 });
 

@@ -43,7 +43,8 @@ const __dirname = path.dirname(__filename);
 const buildPath = path.join(__dirname, "../frontend/dist");
 app.use(express.static(buildPath));
 
-import { redirect, create, remove } from "./apis.js";
+import { redirect, create, remove, list } from "./apis.js";
 app.get("/:shortUrl", redirect);
 app.post("/api/create", bodyParser.json(), create);
 app.delete("/api/delete/:shortUrl", remove);
+app.get("/api/list", list);

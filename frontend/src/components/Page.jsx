@@ -3,13 +3,25 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import UrlTable from "./UrlTable";
 import Snackbar from "@mui/joy/Snackbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [entries, setEntries] = useState([]);
   const [open, setOpen] = useState(false);
   const [ok, setOk] = useState(false);
   const [message, setMessage] = useState("");
+
+  const siteOrigin = import.meta.env.VITE_SITE_ORIGIN;
+  useEffect(() => {
+    fetch(`${siteOrigin}/api/list`, {})
+      .then((res) => res.json())
+      .then((data) => {
+        setEntries(data.entries);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [siteOrigin]);
 
   return (
     <>
