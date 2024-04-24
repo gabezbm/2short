@@ -23,6 +23,13 @@ connect(uri)
     console.error(err);
   });
 
+import { fileURLToPath } from "url";
+import path from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(buildPath));
+
 import { redirect, create, remove } from "./apis.js";
 
 app.get("/:shortUrl", redirect);
