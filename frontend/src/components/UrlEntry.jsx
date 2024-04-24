@@ -5,7 +5,8 @@ import Stack from "@mui/joy/Stack";
 import { ContentCopy, OpenInNew, DeleteOutline } from "@mui/icons-material";
 
 const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
-  const siteDomain = import.meta.env.VITE_SITE_DOMAIN;
+  const siteOrigin = import.meta.env.VITE_SITE_ORIGIN;
+  const siteDomain = siteOrigin.replace(/^https?:\/\//, "");
   const copyToClipboard = (short) => () => {
     navigator.clipboard.writeText(`${siteDomain}/${short}`);
     setOk(true);
@@ -14,7 +15,7 @@ const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
   };
   const deleteRecord = (short) => async () => {
     try {
-      const res = await fetch(`http://localhost:8000/api/delete/${short}`, {
+      const res = await fetch(`${siteOrigin}/api/delete/${short}`, {
         method: "DELETE",
       });
       setOk(res.ok);
@@ -53,7 +54,7 @@ const UrlEntry = ({ full, short, setEntries, setOk, setMessage, setOpen }) => {
             variant="outlined"
             color="success"
             onClick={() => {
-              window.open(`http://${siteDomain}/${short}`, "_blank");
+              window.open(`${siteOrigin}/${short}`, "_blank");
             }}
           >
             <OpenInNew />

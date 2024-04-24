@@ -7,7 +7,7 @@ import cors from "cors";
 dotenv.config({ path: "../.env" });
 const mongodbUser = process.env.MONGODB_USER;
 const mongodbPassword = process.env.MONGODB_PASSWORD;
-const port = process.env.VITE_BACKEND_PORT;
+const port = process.env.VITE_PORT;
 
 const app = express();
 app.use(cors());
